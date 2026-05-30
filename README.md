@@ -99,7 +99,7 @@ Maybe able to use dll injection to load in the player_id as host when the game l
 ## Bugs
 
 * if you set multiplayer.remote_server.ip to a value with characters in it, it will lock the game up and not connect to remote server. you can then bind to radiant:new_game to execute your own code on a "black" screen.
-    There is a bug with the existing argument parser where if it sees a number, it tries to read the whole thing as a number else it reads it as a string. Placing quotes around the ip does not work.
+  - There is a bug with the existing argument parser where if it sees a number, it tries to read the whole thing as a number else it reads it as a string. Placing quotes around the ip does not work.
 
 ## In-Game IP/Port Connect Endpoint
 
