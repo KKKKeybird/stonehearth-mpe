@@ -1,7 +1,7 @@
 local ConnectCallHandler = class()
 
 -- session/response are part of the RPC handler signature.
-function ConnectCallHandler:connect_to_remote_server(session, response, payload)
+function ConnectCallHandler:connect_to_remote_server(_session, _response, payload)
    payload = payload or {}
    local options = {
       restart_client = payload.restart_client == true

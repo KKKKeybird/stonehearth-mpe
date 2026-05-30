@@ -117,7 +117,9 @@ function stonehearth_mpe:connect_to_remote_server(ip, port, options)
       radiant.log.write(
          'stonehearth_mpe',
          0,
-         'Connect - Config update failed enabled=%s ip=%s port=%s',
+         'Connect - Config update failed target=%s:%s enabled_set=%s ip_set=%s port_set=%s',
+         target_ip,
+         target_port,
          tostring(remote_enabled),
          tostring(ip_set),
          tostring(port_set)
@@ -151,7 +153,7 @@ function stonehearth_mpe:connect_to_remote_server(ip, port, options)
       restarted = restart_ok
       if not restart_ok then
          restart_error = tostring(restart_err)
-         radiant.log.write('stonehearth_mpe', 0, 'Connect - Failed client restart for %s:%s (%s)', target_ip, target_port, tostring(restart_err))
+         radiant.log.write('stonehearth_mpe', 0, 'Connect - Failed client restart (%s)', tostring(restart_err))
       end
    end
 
