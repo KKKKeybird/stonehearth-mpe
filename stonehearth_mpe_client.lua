@@ -114,7 +114,14 @@ function stonehearth_mpe:connect_to_remote_server(ip, port, options)
    local port_set = _set_global_config('multiplayer.remote_server.port', target_port)
 
    if not (remote_enabled and ip_set and port_set) then
-      radiant.log.write('stonehearth_mpe', 0, 'Connect - Failed to update remote server config')
+      radiant.log.write(
+         'stonehearth_mpe',
+         0,
+         'Connect - Config update failed enabled=%s ip=%s port=%s',
+         tostring(remote_enabled),
+         tostring(ip_set),
+         tostring(port_set)
+      )
       return {
          success = false,
          error = 'config_update_failed',

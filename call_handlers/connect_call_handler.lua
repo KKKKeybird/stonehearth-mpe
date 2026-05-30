@@ -6,5 +6,4 @@ function ConnectCallHandler:connect_to_remote_server(session, response, payload)
    local result = stonehearth_mpe:connect_to_remote_server(payload.ip, payload.port, payload)
    return result
 end
-
 return ConnectCallHandler
