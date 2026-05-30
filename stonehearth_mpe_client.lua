@@ -145,13 +145,9 @@ function stonehearth_mpe:connect_to_remote_server(ip, port, options)
 
    local restart_client = options.restart_client == true
    if restart_client then
-      local return_ok = pcall(_radiant.call, 'radiant:client:return_to_main_menu')
-      local restart_ok = pcall(_radiant.call, 'radiant:client:restart')
-      if not return_ok then
-         radiant.log.write('stonehearth_mpe', 0, 'Connect - Failed return_to_main_menu for %s:%s', target_ip, target_port)
-      end
+      local restart_ok, restart_err = pcall(_radiant.call, 'radiant:client:restart')
       if not restart_ok then
-         radiant.log.write('stonehearth_mpe', 0, 'Connect - Failed client restart for %s:%s', target_ip, target_port)
+         radiant.log.write('stonehearth_mpe', 0, 'Connect - Failed client restart for %s:%s (%s)', target_ip, target_port, tostring(restart_err))
       end
    end
 
