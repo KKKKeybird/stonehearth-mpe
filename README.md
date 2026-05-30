@@ -42,7 +42,7 @@ These features will set the base of the mod to allow headless server multiplayer
 - [ ] Game Master mode, allow a player to act as a game master creating their own story by spawning entities and controlling them
 - [ ] Allow host client to trigger the save functionality (Only pre-loaded save games)
 - [X] When client connects, update their multiplayer settings to show multiplayer is enabled on client and the number of max_players
-- [ ] Allow client to specify IP address to connect to.
+- [X] Allow client to specify IP address and port to connect to.
 - [ ] Headless Server Side Launcher which allows you to specify world generation settings or the save file to load
 
 ## Research Features
@@ -100,3 +100,29 @@ Maybe able to use dll injection to load in the player_id as host when the game l
 
 * if you set multiplayer.remote_server.ip to a value with characters in it, it will lock the game up and not connect to remote server. you can then bind to radiant:new_game to execute your own code on a "black" screen.
     There is a bug with the existing argument parser where if it sees a number, it tries to read the whole thing as a number else it reads it as a string. Placing quotes around the ip does not work.
+
+## In-Game IP/Port Connect Endpoint
+
+You can now apply remote server target settings in-game (without editing launcher args) through:
+
+```
+stonehearth_mpe:connect_to_remote_server
+```
+
+Payload:
+
+```
+{
+   ip = "127.0.0.1",
+   port = 57094,
+   restart_client = false
+}
+```
+
+The endpoint updates:
+* multiplayer.remote_server.enabled = true
+* multiplayer.remote_server.ip
+* multiplayer.remote_server.port
+
+If native direct-connect methods are available in the runtime, it will try to connect immediately.  
+Otherwise it saves the target and returns `reconnect_required = true` (`restart_client = true` can trigger a client restart attempt).
