@@ -144,21 +144,29 @@ function stonehearth_mpe:connect_to_remote_server(ip, port, options)
    end
 
    local restart_client = options.restart_client == true
+   local restart_error = nil
+   local restarted = false
    if restart_client then
       local restart_ok, restart_err = pcall(_radiant.call, 'radiant:client:restart')
+      restarted = restart_ok
       if not restart_ok then
+         restart_error = tostring(restart_err)
          radiant.log.write('stonehearth_mpe', 0, 'Connect - Failed client restart for %s:%s (%s)', target_ip, target_port, tostring(restart_err))
       end
    end
 
    radiant.log.write('stonehearth_mpe', 0, 'Connect - Saved remote target %s:%s', target_ip, target_port)
-   return {
+   local result = {
       success = true,
       ip = target_ip,
       port = target_port,
       reconnect_required = true,
-      restarted = restart_client,
+      restarted = restarted,
    }
+   if restart_error then
+      result.restart_error = restart_error
+   end
+   return result
 end
 
 function stonehearth_mpe:_on_init() 
