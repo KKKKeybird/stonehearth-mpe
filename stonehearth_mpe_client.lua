@@ -121,6 +121,7 @@ function stonehearth_mpe:connect_to_remote_server(ip, port, options)
       }
    end
 
+   -- Different game/client builds expose different native method names.
    local connected = _call_client_method('connect_to_remote_server', target_ip, target_port)
       or _call_client_method('connect_remote_server', target_ip, target_port)
       or _call_client_method('connect_to_server', target_ip, target_port)
@@ -137,8 +138,11 @@ function stonehearth_mpe:connect_to_remote_server(ip, port, options)
 
    local restart_client = options.restart_client == true
    if restart_client then
-      _radiant.call('radiant:client:return_to_main_menu')
-      _radiant.call('radiant:client:restart')
+      local return_ok = pcall(_radiant.call, 'radiant:client:return_to_main_menu')
+      local restart_ok = pcall(_radiant.call, 'radiant:client:restart')
+      if not return_ok or not restart_ok then
+         radiant.log.write('stonehearth_mpe', 0, 'Connect - Restart sequence failed for %s:%s', target_ip, target_port)
+      end
    end
 
    radiant.log.write('stonehearth_mpe', 0, 'Connect - Saved remote target %s:%s', target_ip, target_port)
